@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<main class="container profile">
+  <aside>
+    <section class="panel who">
+
+      {% if profile.profile_image %}
+      <img class="avatar lg" src="{{ profile.profile_image.url }}" alt="profile img">
+      {% else %}
+      <img class="avatar lg" src="{% static 'image/avatar.jpg' %}" alt="default profile img">
+      {% endif %}
+
+      <h1 style="font-size:1.4rem">{{user.first_name}} {{user.last_name}}</h1>
+      <p class="muted">@{{user.username}} · joined {{ profile.joined_date|date:"F Y" }}</p>
+      <div class="stats">
+        <div><b>...</b><span>Solved</span></div>
+        <div><b>...%</b><span>Average</span></div>
+        <div><b>#...</b><span>Rank</span></div>
+      </div>
+    </section>
+  </aside>
+
+  <div>
+    <form class="panel" method="post" action="{% url 'user:profile_update' %}" enctype="multipart/form-data">
+
+      {% csrf_token %}
+
+      <h2>Personal details</h2>
+
+      <div class="two">
+        <div class="field">
+          <label>First name</label>
+          <input name="first_name" value="{{ user.first_name }}" required>
+        </div>
+
+        <div class="field">
+          <label>Last name</label>
+          <input name="last_name" value="{{ user.last_name }}" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="email" value="{{ user.email }}" required>
+      </div>
+
+      <div class="field">
+        <label>About you</label>
+        <textarea name="about" rows="3">{{ profile.about }}</textarea>
+      </div>
+
+      <div class="field">
+        <label>Profile photo</label>
+        <input type="file" name="profile_image" accept="image/*">
+      </div>
+
+      <button class="btn" type="submit">Save changes</button>
+    </form>
+
+    <form class="panel" method="post" action="{% url 'user:password_change' %}">
+      {% csrf_token %}
+      <h2>Change password</h2>
+      <div class="field"><label for="old">Current password</label><input id="old" type="password" name="old_password"
+          autocomplete="current-password" required></div>
+      <div class="two">
+        <div class="field"><label for="new1">New password</label><input id="new1" type="password" name="new_password1"
+            minlength="8" autocomplete="new-password" required></div>
+        <div class="field"><label for="new2">Repeat new password</label><input id="new2" type="password"
+            name="new_password2" minlength="8" autocomplete="new-password" required></div>
+      </div>
+      <button class="btn ghost" type="submit">Update password</button>
+    </form>
+
+  </div>
+</main>
+
+{% endblock content %}

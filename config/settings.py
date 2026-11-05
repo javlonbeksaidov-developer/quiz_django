@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5ezd4bllma@tzl9%#+&exgv0%hgd!js038b3-7-@j_)a+3qnpb'
+SECRET_KEY = 'django-insecure-wf07*yir(#fnz7-#24)_qcbg1$68f3*a)n8o3_3p$)n5ug&e^w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'quiz',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +57,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,6 +82,12 @@ DATABASES = {
     }
 }
 
+MEDIA_URL = '/media/'
+MEDIA_DIRS = BASE_DIR/'media'
+
+LOGIN_URL = '/user/login/'
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = '/user/login/'
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
@@ -115,6 +124,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATIC_ROOT = BASE_DIR/'static'
+
+STATICFILES_DIRS = [
+    BASE_DIR/'staticfiles'
+]
 
 
 # Email
